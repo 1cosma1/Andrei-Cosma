@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Andrei-Codruț Cosma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0c0f;
+      --surface: #111418;
+      --border: #1e2329;
+      --border-light: #2a3040;
+      --accent: #4f8ef7;
+      --accent-dim: rgba(79,142,247,0.12);
+      --accent-glow: rgba(79,142,247,0.3);
+      --text: #e8eaf0;
+      --text-secondary: #7a8499;
+      --text-muted: #4a5268;
+      --green: #3dd68c;
+      --amber: #f5a623;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'IBM Plex Sans', sans-serif;
+      --display: 'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── Grid background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(79,142,247,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,142,247,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Glowing orb ── */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -20vh;
+      right: -10vw;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(79,142,247,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: rgba(10,12,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 48px;
+      padding-top: 64px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.2s;
+    }
+
+    .hero-label::before {
+      content: '//';
+      margin-right: 8px;
+      color: var(--text-muted);
+    }
+
+    h1 {
+      font-family: var(--display);
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.35s;
+    }
+
+    h1 .accent-text { color: var(--accent); }
+
+    .hero-sub {
+      margin-top: 28px;
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      line-height: 1.8;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.5s;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 36px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.65s;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      padding: 6px 14px;
+      border: 1px solid var(--border-light);
+      color: var(--text-muted);
+      background: var(--surface);
+      border-radius: 2px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      margin-top: 44px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 13px 28px;
+      border-radius: 2px;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #6ba3f9;
+      box-shadow: 0 0 24px var(--accent-glow);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .section-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+    }
+
+    h2 {
+      font-family: var(--display);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      margin-left: 16px;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 100px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .about-text p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      line-height: 1.85;
+      margin-bottom: 20px;
+    }
+
+    .about-text p strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .about-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: flex-start;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+
+    .detail-row:last-child { border-bottom: none; }
+
+    .detail-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      min-width: 100px;
+      padding-top: 2px;
+    }
+
+    .detail-value {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .detail-value a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .detail-value a:hover { text-decoration: underline; }
+
+    .cert-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .cert-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .cert-badge::before {
+      content: '◆';
+      font-size: 8px;
+      color: var(--accent);
+    }
+
+    /* ── SKILLS ── */
+    #skills {
+      padding: 100px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: var(--border);
+    }
+
+    .skill-category {
+      background: var(--surface);
+      padding: 32px;
+    }
+
+    .skill-cat-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .skill-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-item {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 7px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      border-radius: 2px;
+      transition: all 0.2s;
+      cursor: default;
+    }
+
+    .skill-item:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .skill-item.highlight {
+      border-color: rgba(61, 214, 140, 0.3);
+      color: var(--green);
+      background: rgba(61, 214, 140, 0.06);
+    }
+
+    /* ── PROJECTS ── */
+    #projects {
+      padding: 100px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: start;
+      transition: border-color 0.25s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .project-card:hover {
+      border-color: var(--border-light);
+      background: #131820;
+    }
+
+    .project-card:hover::before { opacity: 1; }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .project-type {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .project-date {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+    }
+
+    .project-title {
+      font-family: var(--display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .project-desc {
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.75;
+      max-width: 600px;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .tech-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(79,142,247,0.2);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    .project-stat {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .stat-value {
+      font-family: var(--display);
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ── AWARDS STRIP ── */
+    .awards-strip {
+      display: flex;
+      gap: 2px;
+      flex-wrap: wrap;
+    }
+
+    .award-card {
+      flex: 1;
+      min-width: 200px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .award-icon {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .award-title {
+      font-family: var(--display);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .award-body {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-left {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+      z-index: 200;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-secondary);
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 56px; left: 0; right: 0;
+      background: rgba(10,12,15,0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 20px;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 99;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+    }
+
+    /* ── SOCIAL ICONS ── */
+    .social-links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .social-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    .social-link svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* ── ANIMATIONS ── */
+    /* ── PHOTO PLACEHOLDER ── */
+    .photo-placeholder {
+      width: 160px;
+      height: 160px;
+      border-radius: 4px;
+      border: 2px dashed var(--border-light);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: border-color 0.2s;
+    }
+
+    .photo-placeholder:hover { border-color: var(--accent); }
+
+    /* Replace this with: <img src="your-photo.jpg" style="width:160px;height:160px;border-radius:4px;object-fit:cover;"> */
+    .photo-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      text-align: center;
+      padding: 16px;
+    }
+
+    .photo-hint {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .photo-hint code {
+      color: var(--accent);
+    }
+
+    /* ── STUDYING BADGE ── */
+    .tag-studying {
+      border-color: rgba(61, 214, 140, 0.3);
+      color: var(--green);
+      background: rgba(61, 214, 140, 0.06);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+
+    /* Tablet */
+    @media (max-width: 900px) {
+      #hero, #about, #skills, #projects { padding-left: 32px; padding-right: 32px; }
+      .about-grid { grid-template-columns: 1fr 1fr !important; gap: 36px; }
+      .project-card { gap: 20px; }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      /* Nav */
+      nav {
+        padding: 0 20px;
+        height: 56px;
+      }
+      .nav-links { display: none; }
+      .nav-logo { font-size: 12px; }
+
+      /* Sections */
+      #hero { padding: 0 20px; padding-top: 56px; min-height: 100svh; }
+      #about, #skills, #projects { padding: 72px 20px; }
+      footer { padding: 40px 20px; flex-direction: column; gap: 20px; align-items: flex-start; }
+
+      /* Hero */
+      h1 { font-size: clamp(40px, 12vw, 64px); }
+      .hero-sub { font-size: 15px; }
+      .hero-cta { flex-wrap: wrap; gap: 12px; }
+      .hero-tags { gap: 8px; }
+      .tag { font-size: 10px; padding: 5px 10px; }
+
+      /* Section headers */
+      h2 { font-size: clamp(24px, 7vw, 36px); }
+
+      /* About */
+      .about-grid { grid-template-columns: 1fr !important; gap: 32px; }
+      .photo-placeholder { width: 100px; height: 100px; }
+      .about-text p { font-size: 14px; }
+      .detail-row { padding: 12px 16px; }
+      .detail-label { min-width: 80px; font-size: 9px; }
+      .detail-value { font-size: 13px; }
+
+      /* Awards */
+      .awards-strip { flex-direction: column; }
+      .award-card { min-width: unset; padding: 20px 24px; }
+
+      /* Skills */
+      .skills-grid { grid-template-columns: 1fr; }
+      .skill-category { padding: 24px; }
+      .skill-item { font-size: 11px; padding: 6px 12px; }
+
+      /* Projects */
+      .project-card { grid-template-columns: 1fr; padding: 28px 24px; gap: 16px; }
+      .project-stat { text-align: left; display: flex; align-items: center; gap: 12px; }
+      .stat-value { font-size: 28px; }
+      .project-title { font-size: 18px; }
+      .project-desc { font-size: 13px; }
+
+      /* Social icons */
+      .social-links { gap: 8px; }
+      .social-link { width: 32px; height: 32px; }
+      .social-link svg { width: 14px; height: 14px; }
+
+      /* Footer */
+      .footer-links { flex-wrap: wrap; gap: 16px; }
+      .footer-left { font-size: 11px; }
+    }
+
+    /* Small phones */
+    @media (max-width: 400px) {
+      #hero, #about, #skills, #projects { padding-left: 16px; padding-right: 16px; }
+      footer { padding-left: 16px; padding-right: 16px; }
+      h1 { font-size: 36px; }
+      .project-card { padding: 20px 16px; }
+      .skill-category { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">andrei-codrut.cosma</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="mailto:andreicosma04@gmail.com">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="social-links" id="nav-social">
+    <a class="social-link" href="https://www.linkedin.com/in/andrei-cosma-b185ab1a1/" target="_blank" title="LinkedIn">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.instagram.com/cosma_an/" target="_blank" title="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.tiktok.com/@cosma_an" target="_blank" title="TikTok">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#skills" onclick="closeMenu()">Skills</a>
+  <a href="#projects" onclick="closeMenu()">Projects</a>
+  <a href="mailto:andreicosma04@gmail.com" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-label">Software & Automation Engineering</p>
+  <h1>Andrei-Codruț<br><span class="accent-text">Cosma</span></h1>
+  <p class="hero-sub">
+    B.Sc. student in Automation at <strong>Technical University of Cluj-Napoca</strong>,
+    building machine learning systems, IoT projects, and meaningful digital tools.
+  </p>
+  <div class="hero-tags">
+    <span class="tag">Python · ML</span>
+    <span class="tag">C / C++</span>
+    <span class="tag">EEG · Signal Processing</span>
+    <span class="tag">IoT · ESP8266</span>
+    <span class="tag">SQL · Data</span>
+    <span class="tag tag-studying">📚 B.Sc. Automation · UTCN · 3rd Year</span>
+  </div>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="#projects">View Projects</a>
+    <a class="btn btn-outline" href="https://github.com/1cosma1" target="_blank">GitHub ↗</a>
+  </div>
+  <div class="social-links" style="margin-top: 28px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.95s;">
+    <a class="social-link" href="https://www.linkedin.com/in/andrei-cosma-b185ab1a1/" target="_blank" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.instagram.com/cosma_an/" target="_blank" title="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+    </a>
+    <a class="social-link" href="https://www.tiktok.com/@cosma_an" target="_blank" title="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+    </a>
+    <a class="social-link" href="https://github.com/1cosma1" target="_blank" title="GitHub">
+      <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2>About</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid" class="about-grid-inner" style="grid-template-columns: auto 1fr 1fr; gap: 48px;">
+    <div class="reveal" style="display:flex; flex-direction:column; align-items:center; gap:12px;">
+      
+        
+          <img src="my_photo.jpg" style="width:160px;height:160px;border-radius:4px;object-fit:cover;">
+          <span>Andrei-Codruț Cosma</span>
+        
+      
+      
+    </div>
+    <div class="about-text reveal">
+      <p>
+        I'm a second-year <strong>Automation Engineering</strong> student based in Cluj-Napoca, Romania,
+        with a focus on machine learning, embedded systems, and data-driven problem solving.
+      </p>
+      <p>
+        My work spans from building <strong>EEG-based fatigue detection</strong> systems using
+        signal processing and ML, to designing full IoT stacks and founding web development
+        teams for local NGOs.
+      </p>
+      <p>
+        I'm driven by the intersection of hardware and software — turning raw sensor data into
+        meaningful insights, and building systems that work in the real world.
+      </p>
+    </div>
+    <div class="reveal">
+      <div class="about-details">
+        <div class="detail-row">
+          <span class="detail-label">Location</span>
+          <span class="detail-value">Cluj-Napoca, Romania</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Education</span>
+          <span class="detail-value">B.Sc. Automation, UTCN — 2023–Present</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Phone</span>
+          <span class="detail-value"><a href="tel:+40748782104">+40 748 782 104</a></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Email</span>
+          <span class="detail-value"><a href="mailto:andreicosma04@gmail.com">andreicosma04@gmail.com</a></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">GitHub</span>
+          <span class="detail-value"><a href="https://github.com/1cosma1" target="_blank">github.com/1cosma1</a></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Languages</span>
+          <span class="detail-value">Romanian (native) · English (B2)</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Certifications</span>
+          <span class="detail-value">
+            <div class="cert-badges">
+              <span class="cert-badge">Cybersecurity — Google / UTCN</span>
+              <span class="cert-badge">Blockchain — eCornell</span>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Awards -->
+  <div class="awards-strip reveal" style="margin-top: 48px;">
+    <div class="award-card">
+      <span class="award-icon">🥉</span>
+      <div>
+        <div class="award-title">Bronze Medal</div>
+        <div class="award-body">National IT Olympiad · 2023</div>
+      </div>
+    </div>
+    <div class="award-card">
+      <span class="award-icon">🥇</span>
+      <div>
+        <div class="award-title">1st Place</div>
+        <div class="award-body">County Stage – IT Olympiad · 2023</div>
+      </div>
+    </div>
+    <div class="award-card">
+      <span class="award-icon">🤝</span>
+      <div>
+        <div class="award-title">Teens in AI Organizer</div>
+        <div class="award-body">National Hackathons · 2021–2022</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2>Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-category">
+      <div class="skill-cat-title">Languages</div>
+      <div class="skill-items">
+        <span class="skill-item highlight">Python</span>
+        <span class="skill-item">C</span>
+        <span class="skill-item">C++</span>
+        <span class="skill-item">Java</span>
+        <span class="skill-item">MATLAB</span>
+        <span class="skill-item">SQL</span>
+        <span class="skill-item">HTML / CSS</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Libraries & Frameworks</div>
+      <div class="skill-items">
+        <span class="skill-item highlight">Scikit-Learn</span>
+        <span class="skill-item highlight">MNE-Python</span>
+        <span class="skill-item">Pandas</span>
+        <span class="skill-item">NumPy</span>
+        <span class="skill-item">WordPress</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Tools & Platforms</div>
+      <div class="skill-items">
+        <span class="skill-item highlight">Git / GitHub</span>
+        <span class="skill-item">Linux</span>
+        <span class="skill-item">Jupyter</span>
+        <span class="skill-item">ESP8266</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Concepts & Domains</div>
+      <div class="skill-items">
+        <span class="skill-item">Machine Learning</span>
+        <span class="skill-item">Signal Processing</span>
+        <span class="skill-item">IoT Systems</span>
+        <span class="skill-item">Data Structures</span>
+        <span class="skill-item">Algorithms</span>
+        <span class="skill-item">OOP</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2>Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-list">
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-meta">
+          <span class="project-type">Machine Learning · Signal Processing</span>
+          <span class="project-date">Feb 2026</span>
+        </div>
+        <div class="project-title">Driver Fatigue Detection using EEG & ML</div>
+        <p class="project-desc">
+          Built a Python-based drowsiness detection system that processes raw EEG brain signals
+          using spectral analysis. Implemented a robust preprocessing pipeline including filtering
+          and artifact removal with MNE-Python, then trained a Random Forest classifier to detect
+          fatigue states with strong accuracy.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">MNE-Python</span>
+          <span class="tech-tag">Scikit-Learn</span>
+          <span class="tech-tag">Random Forest</span>
+          <span class="tech-tag">EEG</span>
+          <span class="tech-tag">Signal Processing</span>
+        </div>
+      </div>
+      <div class="project-stat">
+        <div class="stat-value">86.6%</div>
+        <div class="stat-label">Accuracy</div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-meta">
+          <span class="project-type">Embedded Systems · IoT</span>
+          <span class="project-date">2023</span>
+        </div>
+        <div class="project-title">IoT Environmental Security System</div>
+        <p class="project-desc">
+          Designed and built a full IoT stack using the ESP8266 microcontroller and C++.
+          Integrated multiple environmental sensors with real-time data visualization,
+          creating a complete end-to-end monitoring solution from hardware to data display.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">C++</span>
+          <span class="tech-tag">ESP8266</span>
+          <span class="tech-tag">IoT</span>
+          <span class="tech-tag">Sensor Integration</span>
+          <span class="tech-tag">Real-time Data</span>
+        </div>
+      </div>
+      <div class="project-stat">
+        <div class="stat-value">IoT</div>
+        <div class="stat-label">Full Stack</div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div>
+        <div class="project-meta">
+          <span class="project-type">Web Development · Leadership</span>
+          <span class="project-date">2021 · Bistrița</span>
+        </div>
+        <div class="project-title">Web Development Team for Local NGOs</div>
+        <p class="project-desc">
+          Founded and led a web development team focused on building digital presence for
+          local non-profits. Managed client requirements, coordinated the team, and deployed
+          responsive websites using HTML, CSS, JavaScript, and WordPress.
+        </p>
+        <div class="project-tech">
+          <span class="tech-tag">HTML / CSS</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">WordPress</span>
+          <span class="tech-tag">Team Lead</span>
+        </div>
+      </div>
+      <div class="project-stat">
+        <div class="stat-value">NGO</div>
+        <div class="stat-label">Founder</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    © 2026 Andrei-Codruț Cosma &nbsp;·&nbsp; Built with care.
+  </div>
+  <div class="footer-links">
+    <a href="mailto:andreicosma04@gmail.com">Email</a>
+    <a href="https://github.com/1cosma1" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/andrei-cosma-b185ab1a1/" target="_blank">LinkedIn</a>
+    <a href="https://www.instagram.com/cosma_an/" target="_blank">Instagram</a>
+    <a href="https://www.tiktok.com/@cosma_an" target="_blank">TikTok</a>
+  </div>
+</footer>
+
+<script>
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const navSocial = document.getElementById('nav-social');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  }
+
+  // Hide social icons on mobile (show hamburger instead)
+  function checkMobile() {
+    if (window.innerWidth <= 768) {
+      navSocial.style.display = 'none';
+    } else {
+      navSocial.style.display = 'flex';
+      closeMenu();
+    }
+  }
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
